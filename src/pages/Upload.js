@@ -64,12 +64,13 @@ const Upload = () => {
         data.append('image_url', imageRef.current.value)
         //data.append('color', colorRef.current.value)
         data.append('password', passwordRef.current.value)
+        setFormSubmitted(true)
 
         // Send the data TODO do error checking a return info to user
         axios.post(`${API_URL}/tracks/file-upload`, data, config)
             .then(res => {
                 setResData(res.data)
-                setFormSubmitted(true)
+
             })
             .catch(err => console.log(err))
 

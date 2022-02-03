@@ -23,7 +23,7 @@ export default JoinMailing
 
 // Styles
 const JoinContainer = styled.div`
-  background: #f3f3f3;
+  //background: #f3f3f3;
 `
 
 const FormContainer = styled.div`

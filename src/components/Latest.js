@@ -66,15 +66,17 @@ const LatestContainer = styled.div`
 `;
 
 const ArtworkSmall = styled.img`
-  object-fit: cover;
-  width:100px;
-  height:100px;
-  filter: grayscale(100%);
+    object-fit: cover;
+    width:110px;
+    height:110px;
+    filter: grayscale(100%);
+  border-radius: 5px;
 `
 
 const Track = styled.div`
     display: flex;
     color: black;
+  padding: 10px;
 
       //div:nth-child(odd) {
       //  background: #ffffff;
