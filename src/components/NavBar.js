@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { NavLink } from "react-router-dom";
 
 /**
  * Navbar for the website
@@ -11,15 +12,15 @@ const NavBar = () => {
     return (<SiteNav>
 
             {/*Site Name*/}
-            <a className="navbar-item" href="/">
+            <NavLink className="navbar-item" to="">
                 <h1 className={'title is-4'}>Audio Paste</h1>
-            </a>
+            </NavLink>
 
             {/*Right side buttons, upload, maybe random?*/}
             <span>
-                <a className="button is-black" href='/upload'>
+                <NavLink className="button is-black" to='upload'>
                     <strong>Upload</strong>
-                </a>
+                </NavLink>
             </span>
 
         </SiteNav>)

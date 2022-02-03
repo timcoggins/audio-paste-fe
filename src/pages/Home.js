@@ -1,5 +1,9 @@
 import Hero from "../components/Hero";
 import Latest from "../components/Latest";
+import JoinMailing from "../components/JoinMailing";
+import Filter from "../components/Filter";
+
+
 
 /**
  * Home Page
@@ -15,7 +19,9 @@ const Home = () => {
                 title={'A new blog for audio'}
                 subtitle={'Share and recieve feedback on tracks and mixed'}
             />
+            <Filter />
             <Latest />
+            <JoinMailing />
         </>
     )
 }

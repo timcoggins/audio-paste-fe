@@ -8,6 +8,14 @@ import styled from "styled-components";
  */
 const Comments = (props) => {
 
+    const playComment = (time) => {
+        props.wavesurfer.current.play([time])
+    }
+
+    // props.wavesurfer.current.on("seek", function(time) {
+    //     console.log(time)
+    // });
+
     // JSX
     return (
         <CommentsContainer>
@@ -17,12 +25,14 @@ const Comments = (props) => {
                 // Calculate the date
                 const datePosted = new Date(parseInt(item.created_at))
 
+
+
                 // JSX
                 return (
-                    <CommentSingle key={index}>
+                    <CommentSingle key={index} onClick={() => playComment(item.timestamp)}>
                         <span>
                             <CommentName><i className="material-icons">play_arrow</i>{item.name}</CommentName>
-                            <CommentMessage>{item.comment}</CommentMessage>
+                            <CommentMessage>{item.timestamp}s - {item.comment}</CommentMessage>
                         </span>
                         <CommentDate>{datePosted.toLocaleString()}</CommentDate>
                     </CommentSingle>

@@ -1,9 +1,8 @@
-import {useState} from 'react'
-import {useEffect} from "react";
+import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import Wavesurfer from 'react-wavesurfer';
-
-
+// import Wavesurfer from 'react-wavesurfer';
+import WaveSurfer from 'wavesurfer.js'
+import debounce from "../utils/debouce";
 
 /**
  * Component which shows the main window thing
@@ -13,30 +12,69 @@ import Wavesurfer from 'react-wavesurfer';
  */
 
 const WavePlayer = (props) => {
-    // State to store wavesurfer playback status
-    const [playing, setPlaying] = useState(false)
 
-    // Options for wavesurfer
-    const options = {
-        cursorColor: '#000000',
-        hideScrollbar: true,
-        progressColor: '#ffc988',
-        waveColor: '#ffffff',
-        barHeight: 2,
-        barWidth: 1,
-        barGap: 1,
-        //barRadius: 1,
-        responsive: true,
-        normalize: true,
-        //splitChannels: true,
+    const waveformRef = useRef(null);
+    //const wavesurfer = useRef(null);
+
+
+    useEffect(() => {
+
+        // Options for wavesurfer
+        const options = {
+            cursorColor: '#000000',
+            hideScrollbar: true,
+            progressColor: '#ffc988',
+            waveColor: '#ffffff',
+            barHeight: 2,
+            barWidth: 1,
+            barGap: 1,
+            //barRadius: 1,
+            responsive: true,
+            normalize: true,
+            //splitChannels: true,
+        }
+
+        props.wavesurfer.current = WaveSurfer.create({
+            container: waveformRef.current,
+            ...options,
+        });
+
+        props.wavesurfer.current.load(props.file);
+
+        return () => props.wavesurfer.current.destroy();
+
+    }, []);
+
+    //
+
+    // State to store wavesurfer playback status
+    const [playing, setPlaying] = useState();
+
+    // Toggles playback
+    const togglePlay = () => {
+        if(playing) props.wavesurfer.current.pause()
+        else props.wavesurfer.current.play()
+        setPlaying(props.wavesurfer.current.isPlaying())
     }
+
+    const PlayTimestamp = () => {
+        props.wavesurfer.current.play([111])
+        //const time =
+        //wavesurfer.current.play()
+    }
+
+    const returnedFunction = debounce(function() {
+        togglePlay()
+        console.log(playing)
+    }, 250);
 
     // Allows the user the play and pause with the spacebar
     useEffect(() => {
         window.addEventListener('keydown', (e) => {
+
             if (e.keyCode === 32 && e.target === document.body) {
                 e.preventDefault();
-                setPlaying(!playing)
+                returnedFunction()
             }
         });
     }, [])
@@ -48,8 +86,8 @@ const WavePlayer = (props) => {
 
                 {/*Controls for the player and the track name/artist*/}
                 <Controls>
-                    { !playing && <PlayButton onClick={() => setPlaying(!playing)}><i className="material-icons md-48">play_arrow</i></PlayButton> }
-                    { playing && <PlayButton onClick={() => setPlaying(!playing)}><i className="material-icons md-48">pause</i></PlayButton> }
+                    { !playing && <PlayButton onClick={() => togglePlay()}><i className="material-icons md-48">play_arrow</i></PlayButton> }
+                    { playing && <PlayButton onClick={() => togglePlay()}><i className="material-icons md-48">pause</i></PlayButton> }
                     <Title>
                         <p><span>{props.data.artist}</span></p>
                         <h2><span>{props.data.name}</span></h2>
@@ -58,21 +96,21 @@ const WavePlayer = (props) => {
 
                 {/*Waveplayer instance*/}
                 <WaveSurferContainer>
-                    <Wavesurfer
-                        audioFile={props.file}
-                        playing={playing}
-                        options={options}
-                    />
+                      <div ref={waveformRef} />
                 </WaveSurferContainer>
 
                 {/*Download Button*/}
                 <div className={'has-text-centered'}>
-                    <button className='button mt-3 ml-3 is-black'>
-                        <strong>Download</strong>
+                    {/*<button className='button mt-3 ml-3 is-black'>*/}
+                    {/*    <strong>Download</strong>*/}
+                    {/*</button>*/}
+
+                    <button className='button mt-3 ml-3 is-black' onClick={PlayTimestamp}>
+                        <strong>Copy Link</strong>
                     </button>
 
-                    <button className='button mt-3 ml-3 is-black'>
-                        <strong>Copy Link</strong>
+                    <button className='button mt-3 ml-3 is-black' onClick={PlayTimestamp}>
+                        <strong>Next Comment</strong>
                     </button>
                 </div>
 

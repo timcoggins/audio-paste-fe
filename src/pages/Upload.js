@@ -45,6 +45,7 @@ const Upload = () => {
         // Check the form data TODO finish this
         if(nameRef.current.value === '') return;
         if(artistRef.current.value === '') return;
+        if(selectedFile.type !== 'audio/mpeg') return;
 
         // Function for the progress bar
         const config = {
@@ -88,7 +89,13 @@ const Upload = () => {
                         <label className="file-label">
 
                             {/*File Input*/}
-                            <input className="file-input" type="file" name="resume" onChange={changeHandler} />
+                            <input
+                                className="file-input"
+                                type="file"
+                                name="resume"
+                                onChange={changeHandler}
+                                accept="audio/mpeg"
+                            />
 
                             {/*Icon and Text*/}
                             <span className="file-cta">

@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 
 import 'bulma/css/bulma.min.css';
+import Footer from "./components/Footer";
 
 /**
  * Main component for the app
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/track" element={<Track id = {query.get("track")} />} />
                 <Route path="upload" element={<Upload />} />
             </Routes>
+            <Footer />
         </main>
     )
 }

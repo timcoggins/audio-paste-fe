@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import API_URL from "../assets/api_url";
@@ -34,15 +34,18 @@ const Latest = () => {
 
             // Calculate the date
             const datePosted = new Date(parseInt(item.created_at))
+
+            let imageURL = 'https://images.unsplash.com/photo-1602848596718-45693ff58c78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1475&q=80';
+            if(item.image_url !== '') imageURL = item.image_url;
 //
             // JSX
             return (
 
                 <Track key={index}>
-                    <ArtworkSmall src={`${item.image_url}`} />
+                    <ArtworkSmall src={`${imageURL}`} />
                     <TrackRightInfo>
                         <span>
-                            <TrackName><Link to={`/track/?track=${item.token}`}><strong>{item.name}</strong></Link></TrackName>
+                            <TrackName><NavLink to={`/track/?track=${item.token}`}><strong>{item.name}</strong></NavLink></TrackName>
                             <TrackArtist>by {item.artist}</TrackArtist>
                         </span>
                         <TrackDate>{datePosted.toDateString()}</TrackDate>

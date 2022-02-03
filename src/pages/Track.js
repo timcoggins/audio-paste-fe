@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
 import WavePlayer from "../components/WavePlayer";
@@ -21,6 +21,9 @@ const Track = (props) => {
     // Data store
     const [data, setData] = useState()
 
+    // Ref to the audio player
+    const wavesurfer = useRef(null);
+
     /**
      * Setup React Query to get data from the api
      */
@@ -38,7 +41,7 @@ const Track = (props) => {
             { isLoading === false && data !== undefined &&
                 <>
                     {/*Load the wave component*/}
-                    <WavePlayer file={`${API_URL}/uploads/${props.id}`} data={data}/>
+                    <WavePlayer file={`${API_URL}/uploads/${props.id}`} data={data} wavesurfer={wavesurfer}/>
 
                     {/*Blocks for artwork and track information*/}
                     <div className={'columns is-gapless m-0 p-0'}>
@@ -52,7 +55,7 @@ const Track = (props) => {
 
                     {/*Comments*/}
                     <AddComment id={props.id} refetch={refetch}/>
-                    <Comments data={data} />
+                    <Comments data={data} wavesurfer={wavesurfer}/>
                 </>
             }
         </>
