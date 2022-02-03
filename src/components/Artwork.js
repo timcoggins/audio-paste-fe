@@ -10,7 +10,7 @@ const Artwork = (props) => {
 
     // JSX py-6 px-6
     return(
-        <ArtworkContainer className="px-4 pt-4 pb-3">
+        <ArtworkContainer className="">
 
             {/*Show a default image if none was supplied*/}
             { props.data.image_url
@@ -25,15 +25,15 @@ export default Artwork
 
 // Styles
 const ArtworkContainer = styled.div`
-  background: linear-gradient(270deg, rgb(0, 0, 0) 0%, rgb(15, 26, 15) 100%);
+  //background: linear-gradient(270deg, rgb(0, 0, 0) 0%, rgb(15, 26, 15) 100%);
   //width: 100%;
 
   //width:100px;
-  //height:100px;
+  height:100%;
 `;
 
 const Image = styled.img`
   object-fit: cover;
-  width: 100%;
-  filter: grayscale(100%);
+  height: 100%;
+  filter: contrast(140%) grayscale(60%);
 `;

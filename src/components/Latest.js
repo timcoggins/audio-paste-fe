@@ -62,36 +62,44 @@ export default Latest
 
 const LatestContainer = styled.div`
 
-
+  //background: #1e331f;
+  //background: linear-gradient(270deg, rgb(23, 59, 24) 0%, rgb(16, 162, 162) 100%);
 `;
 
 const ArtworkSmall = styled.img`
     object-fit: cover;
     width:110px;
     height:110px;
-    filter: grayscale(100%);
-  border-radius: 5px;
+    filter: contrast(140%) grayscale(60%);
+    border-bottom: 1px #c7c7c7 solid;
+  //border-top-left-radius: 10px;
+  //border-bottom-left-radius: 10px;
 `
 
 const Track = styled.div`
-    display: flex;
-    color: black;
-  padding: 10px;
+  display: flex;
+  color: black;
+  //padding: 10px 10px 0 10px;
+  //align-items: ;
+  //border-radius: 10px;
 
-      //div:nth-child(odd) {
-      //  background: #ffffff;
-      //}
-      //
-      //div:nth-child(even) {
-      //  background: #f6f8f6;
-      //}
-  
+  div:nth-child(odd) {
+    background: #dedddd;
+  }
+
+  div:nth-child(even) {
+    background: #f5f5f5;
+  }
+
 `
 
 const TrackRightInfo = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px #c7c7c7 solid;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 `
 
 const TrackName = styled.h6`

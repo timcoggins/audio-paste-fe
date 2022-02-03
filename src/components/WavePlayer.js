@@ -110,7 +110,7 @@ const WavePlayer = (props) => {
                     </button>
 
                     <button className='button mt-3 ml-3 is-black' onClick={PlayTimestamp}>
-                        <strong>Next Comment</strong>
+                        <strong>Replay</strong>
                     </button>
                 </div>
 
@@ -139,7 +139,7 @@ const TrackContainer = styled.div`
     background: linear-gradient(270deg, rgb(23, 59, 24) 0%, rgb(16, 162, 162) 100%);
     min-height: 500px;
     @media only screen and (max-width: 700px) {
-      min-height: 70vh; //movile maybe?
+      min-height: 80vh; //movile maybe?
     }
 `;
 

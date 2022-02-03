@@ -45,7 +45,7 @@ const Track = (props) => {
 
                     {/*Blocks for artwork and track information*/}
                     <div className={'columns is-gapless m-0 p-0'}>
-                        <div className={'column'}>
+                        <div className={'column is-one-third'}>
                             <Artwork data={data}/>
                         </div>
                         <div className={'column'}>
@@ -53,9 +53,19 @@ const Track = (props) => {
                         </div>
                     </div>
 
+                    {/*Blocks for artwork and track information*/}
+                    <div className={'columns is-gapless m-0 p-0'}>
+                        <div className={'column is-one-third'}>
+                            <AddComment id={props.id} refetch={refetch}/>
+                        </div>
+                        <div className={'column'}>
+                            <Comments data={data} wavesurfer={wavesurfer}/>
+                        </div>
+                    </div>
+
                     {/*Comments*/}
-                    <AddComment id={props.id} refetch={refetch}/>
-                    <Comments data={data} wavesurfer={wavesurfer}/>
+                    {/*<AddComment id={props.id} refetch={refetch}/>*/}
+
                 </>
             }
         </>

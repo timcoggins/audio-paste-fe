@@ -12,16 +12,19 @@ const NavBar = () => {
     return (<SiteNav>
 
             {/*Site Name*/}
-            <NavLink className="navbar-item" to="">
+            <a className="navbar-item" href={'/'}>
                 <h1 className={'title is-4'}>Audio Paste</h1>
-            </NavLink>
+            </a>
 
             {/*Right side buttons, upload, maybe random?*/}
-            <span>
-                <NavLink className="button is-black" to='upload'>
-                    <strong>Upload</strong>
+            <Right>
+                <NavLink className="button is-white ml-4" to='upload'>
+                    <strong>About</strong>
                 </NavLink>
-            </span>
+                <NavLink className="button is-black ml-4" to='upload'>
+                    <strong>Login</strong>
+                </NavLink>
+            </Right>
 
         </SiteNav>)
 }
@@ -36,3 +39,13 @@ const SiteNav = styled.nav`
     align-items: center;
     padding: 10px;
 `;
+
+const Right = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    p {
+      margin-right: 15px;
+      font-size: 1.2em
+    }
+`

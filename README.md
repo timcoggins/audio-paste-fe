@@ -20,6 +20,13 @@ Back end stack
 Add email list support
 
 ## Why?
+- Services like soundcloud cost money and are essentially a open social platform.
+- ContentID type problems with centralised services like youtube, soundcloud etc.
+- No self hosted alternatives which are focused on audio
+- Most other CMS are focused on text, which the user can then embed audio
+- More like a personal portfolio of tracks the user wants to share
+- On other services, it's not possible to subscribe without having an account on the service
+- Creators can build a collection of fan emails
 - 
 
 ## User stories

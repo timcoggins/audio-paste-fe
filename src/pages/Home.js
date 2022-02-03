@@ -17,7 +17,7 @@ const Home = () => {
         <>
             <Hero
                 title={'A new blog for audio'}
-                subtitle={'Share and recieve feedback on tracks and mixed'}
+                subtitle={'Share and receive feedback on tracks and mixes'}
             />
             <Filter />
             <Latest />
