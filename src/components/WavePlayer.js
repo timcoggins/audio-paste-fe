@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-// import Wavesurfer from 'react-wavesurfer';
-import WaveSurfer from 'wavesurfer.js'
+// import * as WaveSurfer from 'wavesurfer.js/dist/wavesurfer'
+// import * as CursorPlugin from 'wavesurfer.js/plugin/wavesurfer.cursor'
 import debounce from "../utils/debouce";
 
 /**
@@ -14,18 +14,23 @@ import debounce from "../utils/debouce";
 const WavePlayer = (props) => {
 
     const waveformRef = useRef(null);
-    //const wavesurfer = useRef(null);
+
+    // State to store wavesurfer playback status
+    const [playing, setPlaying] = useState();
+    const [lastSeek, setLastSeek] = useState(0);
+    const [markerInfo, setMarkerInfo] = useState(0);
 
 
     useEffect(() => {
 
         // Options for wavesurfer
         const options = {
-            cursorColor: '#000000',
+            cursorColor: '#FFFFFF',
             hideScrollbar: true,
             progressColor: '#ffc988',
-            waveColor: '#ffffff',
-            barHeight: 2,
+            waveColor: '#92ffc1',
+            barHeight: 1,
+            height: 256,
             barWidth: 1,
             barGap: 1,
             //barRadius: 1,
@@ -34,44 +39,100 @@ const WavePlayer = (props) => {
             //splitChannels: true,
         }
 
+        // Create the wavesufer if it feels like loading today...
+        // eslint-disable-next-line no-undef
         props.wavesurfer.current = WaveSurfer.create({
             container: waveformRef.current,
             ...options,
+            plugins: [
+                // eslint-disable-next-line no-undef
+                // WaveSurfer.cursor.create({
+                //     showTime: true,
+                //     opacity: 1,
+                //     customShowTimeStyle: {
+                //         'background-color': '#000',
+                //         color: '#fff',
+                //         padding: '2px',
+                //         'font-size': '10px'
+                //     }
+                // })
+                // eslint-disable-next-line no-undef
+                WaveSurfer.markers.create({
+                    // markers: [
+                    //     {
+                    //         time: 5.5,
+                    //         label: "V1",
+                    //         color: '#ff990a'
+                    //     },
+                    //     {
+                    //         time: 10,
+                    //         label: "V2",
+                    //         color: '#00ffcc',
+                    //         position: 'top'
+                    //     }
+                    // ]
+                })
+            ]
         });
 
+        // Load the file
         props.wavesurfer.current.load(props.file);
 
+        // Fires when the user seeks
+        props.wavesurfer.current.on("seek", function(time) {
+            setLastSeek(time)
+        });
+
+        // Fires when the users plays
+        props.wavesurfer.current.on('play', function () {
+            setPlaying(true)
+        });
+
+        // Fires when the user pauses
+        props.wavesurfer.current.on('pause', function () {
+            setPlaying(false)
+        });
+
+        props.data.comments.map(item => {
+            props.wavesurfer.current.addMarker({
+                time: item.timestamp,
+                label: item.comment,
+                color: '#ffc988',
+                position: 'bottom'
+            })
+            console.log(item)
+        })
+
+        // Fires when the users plays
+        props.wavesurfer.current.on('marker-click', function (data) {
+            setMarkerInfo(data)
+            props.wavesurfer.current.play()
+        });
+
+        // Cleanup
         return () => props.wavesurfer.current.destroy();
 
     }, []);
 
-    //
 
-    // State to store wavesurfer playback status
-    const [playing, setPlaying] = useState();
-
-    // Toggles playback
-    const togglePlay = () => {
-        if(playing) props.wavesurfer.current.pause()
-        else props.wavesurfer.current.play()
-        setPlaying(props.wavesurfer.current.isPlaying())
+    const clearMarkers = () => {
+        console.log(props.wavesurfer.current)
+        props.wavesurfer.current.clearMarkers()
     }
 
-    const PlayTimestamp = () => {
-        props.wavesurfer.current.play([111])
-        //const time =
-        //wavesurfer.current.play()
+    const playFromLastSeek = () => {
+        props.wavesurfer.current.seekTo(lastSeek)
+        props.wavesurfer.current.play()
     }
 
+    // Debounced function for the spacebar
     const returnedFunction = debounce(function() {
-        togglePlay()
-        console.log(playing)
+        props.wavesurfer.current.playPause()
     }, 250);
 
     // Allows the user the play and pause with the spacebar
     useEffect(() => {
         window.addEventListener('keydown', (e) => {
-
             if (e.keyCode === 32 && e.target === document.body) {
                 e.preventDefault();
                 returnedFunction()
@@ -86,8 +147,8 @@ const WavePlayer = (props) => {
 
                 {/*Controls for the player and the track name/artist*/}
                 <Controls>
-                    { !playing && <PlayButton onClick={() => togglePlay()}><i className="material-icons md-48">play_arrow</i></PlayButton> }
-                    { playing && <PlayButton onClick={() => togglePlay()}><i className="material-icons md-48">pause</i></PlayButton> }
+                    { !playing && <PlayButton onClick={() => props.wavesurfer.current.playPause()}><i className="material-icons md-48">play_arrow</i></PlayButton> }
+                    { playing && <PlayButton onClick={() => props.wavesurfer.current.playPause()}><i className="material-icons md-48">pause</i></PlayButton> }
                     <Title>
                         <p><span>{props.data.artist}</span></p>
                         <h2><span>{props.data.name}</span></h2>
@@ -97,6 +158,9 @@ const WavePlayer = (props) => {
                 {/*Waveplayer instance*/}
                 <WaveSurferContainer>
                       <div ref={waveformRef} />
+                    {/* <div className='mt-6 has-text-centered'>*/}
+                    {/*    { markerInfo !== null && <> { markerInfo.label } </> }*/}
+                    {/*</div>*/}
                 </WaveSurferContainer>
 
                 {/*Download Button*/}
@@ -105,11 +169,11 @@ const WavePlayer = (props) => {
                     {/*    <strong>Download</strong>*/}
                     {/*</button>*/}
 
-                    <button className='button mt-3 ml-3 is-black' onClick={PlayTimestamp}>
+                    <button className='button mt-3 ml-3 is-black' onClick={clearMarkers}>
                         <strong>Copy Link</strong>
                     </button>
 
-                    <button className='button mt-3 ml-3 is-black' onClick={PlayTimestamp}>
+                    <button className='button mt-3 ml-3 is-black' onClick={playFromLastSeek}>
                         <strong>Replay</strong>
                     </button>
                 </div>
@@ -130,6 +194,7 @@ const WavePlayerContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  color: white;
 `
 
 const TrackContainer = styled.div`

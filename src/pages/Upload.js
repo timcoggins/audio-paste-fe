@@ -23,7 +23,8 @@ const Upload = () => {
     const artistRef = useRef()
     const notesRef = useRef()
     const imageRef = useRef()
-    const colorRef = useRef()
+    const privateRef = useRef()
+    //const colorRef = useRef()
     const passwordRef = useRef()
 
     /**
@@ -64,20 +65,23 @@ const Upload = () => {
         data.append('image_url', imageRef.current.value)
         //data.append('color', colorRef.current.value)
         data.append('password', passwordRef.current.value)
+
+        // Server convert this to an actual boolean later
+        if(privateRef.current.checked) data.append('private', 'true')
+        else data.append('private', 'false')
+
+        // Hide the form and show the progress bar
         setFormSubmitted(true)
 
         // Send the data TODO do error checking a return info to user
         axios.post(`${API_URL}/tracks/file-upload`, data, config)
-            .then(res => {
-                setResData(res.data)
-
-            })
+            .then(res => setResData(res.data))
             .catch(err => console.log(err))
-
     }
 
     return(<>
 
+        {/*Hero*/}
         <Hero title={'Upload'} subtitle={'Share your music'} />
         { !formSubmitted && <section className={'columns mt-4 is-gapless'}>
 
@@ -121,13 +125,13 @@ const Upload = () => {
 
 
             {/*Right Column*/}
-            <div className={'column mx-4'}>
+            <div className={'column mx-5'}>
 
                 {/*Track Name Input*/}
                 <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                        <input className="input" type="text" placeholder="" ref={nameRef} />
+                        <input className="input" type="text" placeholder="Track Name" ref={nameRef} />
                     </div>
                 </div>
 
@@ -135,7 +139,7 @@ const Upload = () => {
                 <div className="field">
                     <label className="label">Artist</label>
                     <div className="control">
-                        <input className="input" type="text" placeholder="" ref={artistRef} />
+                        <input className="input" type="text" placeholder="Artist name" ref={artistRef} />
                     </div>
                 </div>
 
@@ -143,7 +147,7 @@ const Upload = () => {
                 <div className="field">
                     <label className="label">Image URL</label>
                     <div className="control">
-                        <input className="input" type="text" placeholder="" ref={imageRef} />
+                        <input className="input" type="text" placeholder="https://images.unsplash.com/photo-1643892343706-8c9eed4cd82b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1517&q=80" ref={imageRef} />
                     </div>
                 </div>
 
@@ -156,14 +160,14 @@ const Upload = () => {
                 </div>
 
                 {/*Keep this track private? checkbox*/}
-                <div className={'has-text-centered mb-5'}>
+                <div className={'my-5'}>
                     <label className="checkbox my-4">
-                        <input type="checkbox" /> Keep this track private <a href='/'>Learn more</a>
+                        <input type="checkbox" ref={privateRef}/> Keep this track private <a href='/'>Learn more</a>
                     </label>
                 </div>
 
                 {/*Access Password Input*/}
-                <div className="field">
+                <div className="field mb-6">
                     <label className="label">Access Password (optional)</label>
                     <div className="control">
                         <input className="input" type="password" placeholder="" ref={passwordRef} />
@@ -174,8 +178,8 @@ const Upload = () => {
         </section>}
 
         {/*Upload Button*/}
-        { !formSubmitted && <div className={'has-text-centered mb-6 notification'}>
-            <label className="checkbox mb-6 is-vcentered">
+        { !formSubmitted && <div className={'has-text-centered pb-6 notification mb-0'}>
+            <label className="checkbox mb-5 is-vcentered">
                 <input type="checkbox" /> I agree to the <a href="/">terms and conditions</a>
             </label>
             <button className="button is-large is-black" onClick={handleSubmit}>Upload</button>

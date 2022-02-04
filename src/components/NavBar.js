@@ -18,11 +18,11 @@ const NavBar = () => {
 
             {/*Right side buttons, upload, maybe random?*/}
             <Right>
-                <NavLink className="button is-white ml-4" to='upload'>
+                <NavLink className="button is-white ml-4" to=''>
                     <strong>About</strong>
                 </NavLink>
                 <NavLink className="button is-black ml-4" to='upload'>
-                    <strong>Login</strong>
+                    <strong>Upload</strong>
                 </NavLink>
             </Right>
 

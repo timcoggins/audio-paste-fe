@@ -9,7 +9,7 @@ const JoinMailing = () => {
 
     // JSX
     return (
-        <JoinContainer className="notification is-info is-light">
+        <JoinContainer className="notification is-info is-light mb-0">
             {/*<button className="delete"></button>*/}
             <p>Join to receive an email when a new track is released.</p>
             <FormContainer className='mt-4'>

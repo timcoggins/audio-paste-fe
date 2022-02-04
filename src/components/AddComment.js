@@ -15,6 +15,7 @@ const AddComment = (props) => {
     // Refs for the inputs
     const nameRef = useRef()
     const commentRef = useRef()
+    const timeRef = useRef()
 
     /**
      * Mutation to save a comment
@@ -38,7 +39,7 @@ const AddComment = (props) => {
             token: props.id,
             name: nameRef.current.value,
             comment: commentRef.current.value,
-            timestamp: '0',
+            timestamp: timeRef.current.value,
         });
     }
 
@@ -59,6 +60,14 @@ const AddComment = (props) => {
                 <label className="label is-white">Comment</label>
                 <div className="control">
                     <input className="input" type="text" placeholder="e.g Snare is too loud" ref={commentRef}/>
+                </div>
+            </div>
+
+            {/*time field*/}
+            <div className="field mb-5">
+                <label className="label is-white">Time Location (seconds)</label>
+                <div className="control">
+                    <input className="input" type="text" placeholder="60" ref={timeRef}/>
                 </div>
             </div>
 
