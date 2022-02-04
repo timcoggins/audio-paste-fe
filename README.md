@@ -3,8 +3,6 @@ Kinda like a blog for audio
 
 curated by the owner themself, the owner can hand our a private password to give upload access, public facing posts go on the front page, private posts are only accessible by link
 
-tracks are non removable by users of the blog
-
 Front end stack
 React 17 with
 - React router 6
@@ -20,7 +18,7 @@ Back end stack
 Add email list support
 
 ## Why?
-- Services like soundcloud cost money and are essentially a open social platform.
+- Services like soundcloud cost money and are essentially a social media platform.
 - ContentID type problems with centralised services like youtube, soundcloud etc.
 - No self hosted alternatives which are focused on audio
 - Most other CMS are focused on text, which the user can then embed audio
