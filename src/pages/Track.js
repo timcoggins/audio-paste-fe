@@ -30,7 +30,7 @@ const Track = (props) => {
     const { isLoading, refetch } = useQuery('getTrack', () => axios.get(`${API_URL}/tracks/${props.id}`), {
         onSuccess: (res) => {
             setData(res.data)
-            console.log(res.data)
+            //console.log(res.data)
         }
     })
 

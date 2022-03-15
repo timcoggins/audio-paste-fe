@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import styled from 'styled-components'
@@ -15,7 +15,7 @@ const AddComment = (props) => {
     // Refs for the inputs
     const nameRef = useRef()
     const commentRef = useRef()
-    const timeRef = useRef()
+    const timeRef = useRef(0)
 
     /**
      * Mutation to save a comment
@@ -24,7 +24,7 @@ const AddComment = (props) => {
             return axios.post(`${API_URL}/tracks/add-comment`, commentMutation, )
         }, {
             onSuccess: (data) => {
-                console.log(data);
+                //console.log(data);
                 props.refetch();
             },
             onError: (err) => console.log(err)

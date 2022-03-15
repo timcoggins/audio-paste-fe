@@ -1,7 +1,9 @@
 # Audio Paste
 Kinda like a blog for audio
 
-curated by the owner themself, the owner can hand our a private password to give upload access, public facing posts go on the front page, private posts are only accessible by link
+![AudioPaste Example](./images/track.png "Track screen")
+
+curated by the owner, the owner can hand our a private password to give upload access, public facing posts go on the front page, private posts are only accessible by link
 
 Front end stack
 React 17 with

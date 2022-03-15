@@ -21,6 +21,7 @@ const WavePlayer = (props) => {
     const [markerInfo, setMarkerInfo] = useState(0);
 
 
+
     useEffect(() => {
 
         // Options for wavesurfer
@@ -93,21 +94,36 @@ const WavePlayer = (props) => {
             setPlaying(false)
         });
 
-        props.data.comments.map(item => {
+        props.data.comments.map((item, index) => {
             props.wavesurfer.current.addMarker({
                 time: item.timestamp,
-                label: item.comment,
+                //label: item.comment,
                 color: '#ffc988',
-                position: 'bottom'
+                //position: (index % 2 === 0) ? 'bottom' : 'top',
+                position: 'bottom',
             })
-            console.log(item)
+           // console.log(item)
         })
 
         // Fires when the users plays
         props.wavesurfer.current.on('marker-click', function (data) {
-            setMarkerInfo(data)
+
+            if(props.data) {
+                setMarkerInfo(props.data.comments.filter(item => {
+                    if(data.time === item.timestamp) return true
+                    return false
+                }))
+            }
+
             props.wavesurfer.current.play()
         });
+
+        // Runs when the audio runs returns data
+        props.wavesurfer.current.on('audioprocess', function (data) {
+            //console.log(data)
+        })
+
+
 
         // Cleanup
         return () => props.wavesurfer.current.destroy();
@@ -116,7 +132,7 @@ const WavePlayer = (props) => {
 
 
     const clearMarkers = () => {
-        console.log(props.wavesurfer.current)
+        //console.log(props.wavesurfer.current)
         props.wavesurfer.current.clearMarkers()
     }
 
@@ -158,16 +174,21 @@ const WavePlayer = (props) => {
                 {/*Waveplayer instance*/}
                 <WaveSurferContainer>
                       <div ref={waveformRef} />
-                    {/* <div className='mt-6 has-text-centered'>*/}
-                    {/*    { markerInfo !== null && <> { markerInfo.label } </> }*/}
-                    {/*</div>*/}
                 </WaveSurferContainer>
+
+                <Comment className='has-text-centered is-size-4'>
+                    <>
+                    { markerInfo.length && <span> { markerInfo[0].comment } </span> }
+                     </>
+                </Comment>
 
                 {/*Download Button*/}
                 <div className={'has-text-centered'}>
                     {/*<button className='button mt-3 ml-3 is-black'>*/}
                     {/*    <strong>Download</strong>*/}
                     {/*</button>*/}
+
+
 
                     <button className='button mt-3 ml-3 is-black' onClick={clearMarkers}>
                         <strong>Copy Link</strong>
@@ -243,6 +264,13 @@ const Title = styled.div`
         font-size: 24px;
         margin: 5px 0;
     }
+`
+
+const Comment = styled.div`
+  span {
+    background: #221b24;
+    padding: 1px 5px;
+  }
 `
 
 const WaveSurferContainer = styled.div`
